@@ -86,7 +86,11 @@ async def debug_first_rows():
     if df.empty:
         return {"error": "DF is empty"}
 
+    # Replace NaN, inf, and -inf with None for JSON compatibility
+    df_clean = df.head(10).replace([float('inf'), float('-inf')], None)
+    df_clean = df_clean.where(df_clean.notna(), None)
+
     return {
         "columns": list(df.columns),
-        "sample": df.head(10).to_dict(orient="records")
+        "sample": df_clean.to_dict(orient="records")
     }

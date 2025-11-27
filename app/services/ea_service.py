@@ -11,7 +11,7 @@ def compute_ea_performance(df: pd.DataFrame) -> pd.DataFrame:
     stats = grouped["Profit"].agg(["count", "sum"])
     stats = stats.rename(columns={"count": "Trades", "sum": "TotalProfit"})
 
-    win_rate = grouped.apply(lambda x: (x["Profit"] > 0).sum() / len(x) * 100 if len(x) > 0 else 0.0)
+    win_rate = grouped.apply(lambda x: (x["Profit"] > 0).sum() / len(x) * 100 if len(x) > 0 else 0.0, include_groups=False)
     stats["WinRate"] = win_rate
 
     stats = stats.reset_index()
