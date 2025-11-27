@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MT5 Portfolio Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>MT5 Portfolio</h2>
+        </div>
+        <nav class="nav">
+            <a href="/" class="nav-link">Portfolio Overview</a>
+            <a href="/ea/performance" class="nav-link">EA Performance</a>
+            <a href="/symbols/performance" class="nav-link">Symbol Performance</a>
+            <a href="/debug_paths" class="nav-link">Debug Paths</a>
+        </nav>
+    </aside>
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+</body>
+</html>
