@@ -1,0 +1,3 @@
+EA_Name,Timestamp,Balance,Equity,Margin,FreeMargin,MarginLevel,Profit,Currency,Server,Leverage,Source,ProcessedTime
+Ultimate-Timebomb,2025.11.22 02:25:47,5204.74,5204.74,0.0,5204.74,0.0,0.0,USD,ICMarketsSC-Demo,1000,US-ORB,2025-11-25 08:19:54
+US-ORB-Fund,2025.11.22 02:21:51,10441.26,10441.26,0.0,10441.26,0.0,0.0,USD,ICMarketsSC-Demo,50,Ultimate-TimeBomb,2025-11-25 08:19:55

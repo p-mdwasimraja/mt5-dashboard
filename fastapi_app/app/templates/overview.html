@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Overview</h1>
+<section class="section">
+    <h2>EA Summary</h2>
+    {% if table_rows %}
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>EA Name</th>
+                <th>Total Profit ($)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in table_rows %}
+                <tr>
+                    <td>{{ row.ea_name }}</td>
+                    <td>{{ "{:,.2f}".format(row.profit) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="muted">No EA data available yet.</p>
+    {% endif %}
+</section>
+<section class="section">
+    <h2>Cumulative Profit</h2>
+    <div class="chart-container">
+        {{ equity_html | safe }}
+    </div>
+</section>
+{% endblock %}

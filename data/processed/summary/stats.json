@@ -1,0 +1,22 @@
+{
+  "generated_at": "2025-11-25 08:27:28",
+  "total_eas": 2,
+  "total_accounts": 2,
+  "total_deposits": 2,
+  "total_transactions": 8,
+  "total_open_positions": 0,
+  "eas": {
+    "Ultimate-Timebomb": {
+      "balance": 5204.74,
+      "equity": 5204.74,
+      "profit": 0.0,
+      "currency": "USD"
+    },
+    "US-ORB-Fund": {
+      "balance": 10441.26,
+      "equity": 10441.26,
+      "profit": 0.0,
+      "currency": "USD"
+    }
+  }
+}

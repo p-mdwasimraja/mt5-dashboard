@@ -1,0 +1,41 @@
+/* Insight KPI cards – colorful style */
+.insight-card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
+    color: #ffffff;
+}
+
+.insight-card-blue {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.insight-card-green {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+.insight-card-red {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.insight-card-yellow {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.insight-card-purple {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.insight-card-dark {
+    background: linear-gradient(135deg, #111827, #020617);
+}
+
+.insight-table td,
+.insight-table th {
+    font-size: 12px;
+    padding: 0.25rem 0.5rem;
+}
+
+.perf-filter-dropdown .Select-control {
+    min-height: 32px;
+}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Symbol Performance (Merged Portfolio)</h1>
+
+<section class="section">
+    {% if rows %}
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Trades</th>
+                <th>Win Rate (%)</th>
+                <th>Total Profit ($)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+                <tr>
+                    <td>{{ row.Symbol }}</td>
+                    <td>{{ row.Trades }}</td>
+                    <td>{{ "{:.1f}".format(row.WinRate) }}</td>
+                    <td>{{ "{:,.2f}".format(row.TotalProfit) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="muted">No symbol performance data available.</p>
+    {% endif %}
+</section>
+{% endblock %}

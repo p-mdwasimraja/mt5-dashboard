@@ -1,0 +1,35 @@
+mt5_auto_dashboard/
+│
+├── MQL5/                           # MT5 Files (place in your MT5 terminal)
+│   ├── Experts/
+│   │   └── AdvancedAutoExport.mq5
+│   └── Scripts/
+│       └── QuickExport.mq5
+│
+├── src/                            # Python Dashboard
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── file_monitor.py
+│   │   ├── data_processor.py
+│   │   └── dashboard_builder.py
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   │   └── helpers.py
+│   ├── static/
+│   │   └── styles.css
+│   └── templates/
+│       └── index.html
+│
+├── data/                           # Auto-created
+│   ├── raw/                       # MT5 exported files
+│   ├── processed/                 # Processed data
+│   └── backups/                   # Automated backups
+│
+├── logs/                          # Auto-created
+├── config/
+│   └── settings.yaml
+├── requirements.txt
+├── main.py                       # Main dashboard
+├── run_processor.py              # File processor only
+└── README.md

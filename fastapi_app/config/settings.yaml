@@ -1,0 +1,47 @@
+app:
+  name: "MT5 Auto Dashboard"
+  version: "2.0"
+  debug: false
+
+paths:
+  raw_data: "./data/raw/"
+  processed_data: "./data/processed/"
+  backup_data: "./data/backups/"
+  logs: "./logs/"
+
+mt5_sources:
+  - name: "Ultimate-Timebomb"
+    path: "C:/Users/pwasi/OneDrive/Documents/Wasim/Trading/prosperityalgosolutions/mt5_auto_dashboard/data/Dummy_Data_dir/Terminal/23CFE4795D38D7F9A7307D4A17072D3E/MQL5/Files/MT5_Data"
+    enabled: true
+    description: "Ultimate Timebomb dummy EA data"
+
+  - name: "US-ORB-Fund"
+    path: "C:/Users/pwasi/OneDrive/Documents/Wasim/Trading/prosperityalgosolutions/mt5_auto_dashboard/data/Dummy_Data_dir/Terminal/2E61BBB5891D76FBAC81E5DAF27D8CEC/MQL5/Files/MT5_Data"
+    enabled: true
+    description: "US ORB Fund dummy EA data"
+
+dashboard:
+  port: 8050
+  host: "127.0.0.1"
+  debug: false
+  update_interval: 5000
+  data_refresh_interval: 300000
+
+processing:
+  auto_process: true
+  archive_raw_files: true
+  backup_interval_hours: 24
+  max_files_per_ea: 1000
+  copy_files: true
+  archive_after_copy: true
+
+monitoring:
+  enabled: true
+  check_interval: 30
+  alert_on_error: true
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  max_file_size_mb: 10
+  backup_count: 5

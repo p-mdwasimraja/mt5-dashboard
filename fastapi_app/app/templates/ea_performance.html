@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>EA Performance (Merged Portfolio)</h1>
+
+<section class="section">
+    {% if rows %}
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>EA Name</th>
+                <th>Trades</th>
+                <th>Win Rate (%)</th>
+                <th>Total Profit ($)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+                <tr>
+                    <td>{{ row.EA_Name }}</td>
+                    <td>{{ row.Trades }}</td>
+                    <td>{{ "{:.1f}".format(row.WinRate) }}</td>
+                    <td>{{ "{:,.2f}".format(row.TotalProfit) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="muted">No EA performance data available.</p>
+    {% endif %}
+</section>
+{% endblock %}
