@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Portfolio Overview - MT5 Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Portfolio Overview</h1>
+        <p class="text-muted">Complete trading performance across all EAs and accounts</p>
+    </div>
+</div>
+
+<!-- Summary Stats -->
+<div class="row">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Total Trades</div>
+            <p class="stat-value">{{ summary.total_trades }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Total Profit</div>
+            <p class="stat-value {% if summary.total_profit >= 0 %}profit-positive{% else %}profit-negative{% endif %}">
+                ${{ "%.2f"|format(summary.total_profit) }}
+            </p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Win Rate</div>
+            <p class="stat-value">{{ "%.2f"|format(summary.win_rate) }}%</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Active EAs</div>
+            <p class="stat-value">{{ summary.total_eas }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Profitable Trades</div>
+            <p class="stat-value profit-positive">{{ summary.profitable_trades }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Losing Trades</div>
+            <p class="stat-value profit-negative">{{ summary.losing_trades }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Avg Win</div>
+            <p class="stat-value profit-positive">${{ "%.2f"|format(summary.avg_profit) }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Avg Loss</div>
+            <p class="stat-value profit-negative">${{ "%.2f"|format(summary.avg_loss) }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Equity Curve -->
+{% if equity_chart %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="section-title">Equity Curve</h2>
+        <div class="stat-card">
+            {{ equity_chart|safe }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- EA Breakdown -->
+{% if ea_breakdown %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="section-title">Performance by EA</h2>
+        <div class="stat-card">
+            {{ ea_breakdown|safe }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Symbol Breakdown -->
+{% if symbol_breakdown %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="section-title">Performance by Symbol</h2>
+        <div class="stat-card">
+            {{ symbol_breakdown|safe }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Recent Trades -->
+{% if recent_trades %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="section-title">Recent Trades</h2>
+        <div class="stat-card">
+            {{ recent_trades|safe }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- No Data Message -->
+{% if summary.total_trades == 0 %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">No Data Available</h4>
+            <p>No trading data found. Please check your MT5 data sources configuration.</p>
+            <hr>
+            <p class="mb-0">
+                <a href="/system/info" class="alert-link">View System Info</a> to verify configuration.
+            </p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

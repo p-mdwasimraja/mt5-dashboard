@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}All EAs Overview - MT5 Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/ea/">EAs</a></li>
+                <li class="breadcrumb-item active">All EAs Overview</li>
+            </ol>
+        </nav>
+        <h1>All Expert Advisors Overview</h1>
+        <p class="text-muted">Comprehensive comparison of all EAs including risk metrics</p>
+    </div>
+</div>
+
+{% if eas %}
+<!-- Summary Cards -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-label">Total EAs</div>
+            <p class="stat-value">{{ total_eas }}</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-label">Total Profit (All EAs)</div>
+            {% set total_profit = eas|sum(attribute='total_profit') %}
+            <p class="stat-value {% if total_profit >= 0 %}profit-positive{% else %}profit-negative{% endif %}">
+                ${{ "%.2f"|format(total_profit) }}
+            </p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-label">EAs with Active Loss Streaks</div>
+            {% set active_streaks = eas|selectattr('current_loss_streak', 'gt', 0)|list|length %}
+            <p class="stat-value {% if active_streaks > 0 %}profit-negative{% else %}profit-positive{% endif %}">
+                {{ active_streaks }}
+            </p>
+            {% if active_streaks > 0 %}
+            <small class="text-danger">⚠️ Requires attention</small>
+            {% else %}
+            <small class="text-success">✓ All clear</small>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- EAs Comparison Table -->
+<div class="row mt-4">
+    <div class="col-12">
+        <h2 class="section-title">EAs Performance Comparison</h2>
+        <div class="stat-card">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>EA Name</th>
+                            <th class="text-end">Total Profit</th>
+                            <th class="text-center">Win Rate</th>
+                            <th class="text-center">Total Trades</th>
+                            <th class="text-center">Max Consecutive Losses</th>
+                            <th class="text-center">Current Streak</th>
+                            <th class="text-center">Risk Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ea in eas %}
+                        <tr>
+                            <td>
+                                <strong>{{ ea.ea_name }}</strong>
+                            </td>
+                            <td class="text-end {% if ea.total_profit >= 0 %}profit-positive{% else %}profit-negative{% endif %}">
+                                ${{ "%.2f"|format(ea.total_profit) }}
+                            </td>
+                            <td class="text-center">
+                                <span class="badge {% if ea.win_rate >= 60 %}bg-success{% elif ea.win_rate >= 40 %}bg-warning{% else %}bg-danger{% endif %}">
+                                    {{ "%.1f"|format(ea.win_rate) }}%
+                                </span>
+                            </td>
+                            <td class="text-center">{{ ea.total_trades }}</td>
+                            <td class="text-center">
+                                <span style="color: #e67e22; font-weight: bold;">
+                                    {{ ea.max_consecutive_losses }}
+                                </span>
+                                <br>
+                                <small class="text-muted">${{ "%.2f"|format(ea.max_streak_loss_amount) }}</small>
+                            </td>
+                            <td class="text-center">
+                                {% if ea.current_loss_streak > 0 %}
+                                <span class="badge bg-danger">
+                                    {{ ea.current_loss_streak }} losses
+                                </span>
+                                {% else %}
+                                <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if ea.current_loss_streak >= 3 %}
+                                <span class="badge bg-danger">HIGH RISK</span>
+                                {% elif ea.current_loss_streak >= 2 %}
+                                <span class="badge bg-warning">MODERATE</span>
+                                {% else %}
+                                <span class="badge bg-success">NORMAL</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="/ea/{{ ea.ea_name }}" class="btn btn-sm btn-outline-primary">
+                                    Details →
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Risk Alerts -->
+{% set high_risk_eas = eas|selectattr('current_loss_streak', 'ge', 3)|list %}
+{% if high_risk_eas %}
+<div class="row mt-4">
+    <div class="col-12">
+        <h2 class="section-title">⚠️ High Risk Alerts</h2>
+        <div class="alert alert-danger" role="alert">
+            <h5 class="alert-heading">EAs with 3+ Consecutive Losses</h5>
+            <ul class="mb-0">
+                {% for ea in high_risk_eas %}
+                <li>
+                    <strong>{{ ea.ea_name }}</strong>: {{ ea.current_loss_streak }} consecutive losses
+                    <a href="/ea/{{ ea.ea_name }}" class="alert-link">Review Performance →</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">No EAs Found</h4>
+            <p>No Expert Advisors found in the data. Please check your MT5 data sources.</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

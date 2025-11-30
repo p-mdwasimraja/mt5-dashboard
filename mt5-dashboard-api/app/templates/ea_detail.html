@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}{{ ea_name }} - MT5 Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/ea/">EAs</a></li>
+                <li class="breadcrumb-item active">{{ ea_name }}</li>
+            </ol>
+        </nav>
+        <h1>{{ ea_name }}</h1>
+        <p class="text-muted">Detailed performance metrics</p>
+    </div>
+</div>
+
+<!-- Summary Stats -->
+<div class="row">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Total Trades</div>
+            <p class="stat-value">{{ stats.total_trades }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Total Profit</div>
+            <p class="stat-value {% if stats.total_profit >= 0 %}profit-positive{% else %}profit-negative{% endif %}">
+                ${{ "%.2f"|format(stats.total_profit) }}
+            </p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Win Rate</div>
+            <p class="stat-value">{{ "%.2f"|format(stats.win_rate) }}%</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Avg Profit</div>
+            <p class="stat-value profit-positive">${{ "%.2f"|format(stats.avg_profit) }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Profitable Trades</div>
+            <p class="stat-value profit-positive">{{ stats.profitable_trades }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Losing Trades</div>
+            <p class="stat-value profit-negative">{{ stats.losing_trades }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Max Profit</div>
+            <p class="stat-value profit-positive">${{ "%.2f"|format(stats.max_profit) }}</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-label">Max Loss</div>
+            <p class="stat-value profit-negative">${{ "%.2f"|format(stats.max_loss) }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Consecutive Loss Analysis -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-label">Max Consecutive Losses</div>
+            <p class="stat-value" style="color: #e67e22;">{{ stats.max_consecutive_losses }} trades</p>
+            <small class="text-muted">Total loss: ${{ "%.2f"|format(stats.max_streak_loss_amount) }}</small>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-label">Current Loss Streak</div>
+            <p class="stat-value {% if stats.current_loss_streak > 0 %}profit-negative{% else %}text-muted{% endif %}">
+                {{ stats.current_loss_streak }} trades
+            </p>
+            {% if stats.current_loss_streak > 0 %}
+            <small class="text-danger">⚠️ Active losing streak!</small>
+            {% elif stats.current_loss_streak == 0 and stats.total_trades > 0 %}
+            <small class="text-success">✓ No active streak</small>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-label">Risk Alert</div>
+            {% if stats.current_loss_streak >= 3 %}
+            <p class="stat-value text-danger">HIGH RISK</p>
+            <small class="text-danger">Consider reviewing strategy</small>
+            {% elif stats.current_loss_streak >= 2 %}
+            <p class="stat-value" style="color: #e67e22;">MODERATE</p>
+            <small class="text-warning">Monitor closely</small>
+            {% else %}
+            <p class="stat-value text-success">NORMAL</p>
+            <small class="text-muted">Trading normally</small>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Equity Curve -->
+{% if equity_chart %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="section-title">Equity Curve</h2>
+        <div class="stat-card">
+            {{ equity_chart|safe }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Symbol Performance -->
+{% if symbol_performance %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="section-title">Performance by Symbol</h2>
+        <div class="stat-card">
+            {{ symbol_performance|safe }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

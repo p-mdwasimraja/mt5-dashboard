@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Trading Symbols - MT5 Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Trading Symbols</h1>
+        <p class="text-muted">View performance metrics for each symbol</p>
+    </div>
+</div>
+
+{% if symbols %}
+<div class="row">
+    <div class="col-12">
+        <div class="stat-card">
+            <div class="list-group">
+                {% for symbol in symbols %}
+                <a href="/symbols/{{ symbol }}" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">{{ symbol }}</h5>
+                    <small class="text-muted">Click to view detailed performance</small>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">No Symbols Found</h4>
+            <p>No trading symbols found in the data. Please check your MT5 data sources.</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

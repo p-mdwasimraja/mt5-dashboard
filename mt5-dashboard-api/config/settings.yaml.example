@@ -1,0 +1,21 @@
+# MT5 Dashboard API Configuration
+# Copy this file to settings.yaml and update paths
+
+# MT5 Data Sources
+# Each source represents an MT5 terminal that exports CSV files
+mt5_sources:
+  - name: "Terminal1"
+    enabled: true
+    path: "/path/to/mt5/terminal1/MQL5/Files"
+    description: "Primary trading account"
+
+  - name: "Terminal2"
+    enabled: false
+    path: "/path/to/mt5/terminal2/MQL5/Files"
+    description: "Secondary trading account"
+
+# Data paths (relative to project root)
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  backup_data: "data/backup"
